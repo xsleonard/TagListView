@@ -11,7 +11,7 @@ import UIKit
 @IBDesignable
 open class TagView: UIButton {
 
-    var data: Any? = nil
+    open var data: Any? = nil
 
     @IBInspectable open var cornerRadius: CGFloat = 0 {
         didSet {
