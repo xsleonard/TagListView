@@ -329,7 +329,17 @@ open class TagListView: UIView {
     
     private func createNewTagView(_ title: String) -> TagView {
         let tagView = TagView(title: title)
-        
+        configureNewTagView(tagView)
+        return tagView
+    }
+
+    private func createNewTagView(_ title: NSAttributedString) -> TagView {
+        let tagView = TagView(title: title)
+        configureNewTagView(tagView)
+        return tagView
+    }
+
+    private func configureNewTagView(_ tagView: TagView) {
         tagView.textColor = textColor
         tagView.selectedTextColor = selectedTextColor
         tagView.tagBackgroundColor = tagBackgroundColor
@@ -356,8 +366,6 @@ open class TagListView: UIView {
                 $0.isSelected = $0 == this
             }
         }
-        
-        return tagView
     }
 
     @discardableResult
@@ -368,6 +376,11 @@ open class TagListView: UIView {
     
     @discardableResult
     open func addTags(_ titles: [String]) -> [TagView] {
+        return addTagViews(titles.map(createNewTagView))
+    }
+
+    @discardableResult
+    open func addTags(_ titles: [NSAttributedString]) -> [TagView] {
         return addTagViews(titles.map(createNewTagView))
     }
     

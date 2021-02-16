@@ -11,6 +11,8 @@ import UIKit
 @IBDesignable
 open class TagView: UIButton {
 
+    var data: Any? = nil
+
     @IBInspectable open var cornerRadius: CGFloat = 0 {
         didSet {
             layer.cornerRadius = cornerRadius
@@ -166,6 +168,13 @@ open class TagView: UIButton {
         
         setupView()
     }
+
+    public init(title: NSAttributedString) {
+        super.init(frame: CGRect.zero)
+        setAttributedTitle(title, for: UIControl.State())
+
+        setupView()
+    }
     
     private func setupView() {
         titleLabel?.lineBreakMode = titleLineBreakMode
@@ -187,6 +196,15 @@ open class TagView: UIButton {
     override open var intrinsicContentSize: CGSize {
         var size = titleLabel?.text?.size(withAttributes: [NSAttributedString.Key.font: textFont]) ?? CGSize.zero
         size.height = textFont.pointSize + paddingY * 2
+
+        if let t = self.currentAttributedTitle {
+            self.titleLabel?.lineBreakMode = .byClipping
+            size = t.size()
+            size.height += paddingY * 2
+            size.height = ceil(size.height)
+            size.width = ceil(size.width)
+        }
+
         size.width += paddingX * 2
         if size.width < size.height {
             size.width = size.height
